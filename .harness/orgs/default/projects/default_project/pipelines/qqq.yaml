@@ -1,0 +1,100 @@
+pipeline:
+  name: qqq
+  identifier: qqq
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: plan
+        identifier: plan
+        description: ""
+        type: IACM
+        spec:
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          workspace: solugenix
+          execution:
+            steps:
+              - step:
+                  type: GitClone
+                  name: GitClone_1
+                  identifier: GitClone_1
+                  spec:
+                    connectorRef: account.terraform_git
+                    repoName: terraform-zero-to-hero
+                    build:
+                      type: branch
+                      spec:
+                        branch: main
+        tags: {}
+    - stage:
+        name: qq
+        identifier: qq
+        description: ""
+        type: IACM
+        spec:
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          workspace: solugenix
+          execution:
+            steps:
+              - parallel:
+                  - step:
+                      type: IACMTerraformPlugin
+                      name: init
+                      identifier: init
+                      timeout: 10m
+                      spec:
+                        command: init
+                  - step:
+                      type: GitClone
+                      name: GitClone_1
+                      identifier: GitClone_1
+                      spec:
+                        connectorRef: account.terraform_git
+                        repoName: terraform-zero-to-hero
+                        build:
+                          type: branch
+                          spec:
+                            branch: main
+                      description: jfjh
+              - parallel:
+                  - step:
+                      type: IACMTerraformPlugin
+                      name: plan
+                      identifier: plan
+                      timeout: 10m
+                      spec:
+                        command: plan
+                  - step:
+                      type: Run
+                      name: Run_1
+                      identifier: Run_1
+                      spec:
+                        shell: Sh
+                        command: terraform plan
+              - parallel:
+                  - step:
+                      type: IACMTerraformPlugin
+                      name: apply
+                      identifier: apply
+                      timeout: 10m
+                      spec:
+                        command: apply
+                  - step:
+                      type: Run
+                      name: Run_2
+                      identifier: Run_2
+                      spec:
+                        shell: Sh
+                        command: terraform apply --auto approve
+        tags: {}
