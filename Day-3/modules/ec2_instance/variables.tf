@@ -18,3 +18,8 @@ variable "vpc_id_value" {
     description = "value for the subnet_id"
     default = "vpc-0f2360d511fdab503"
 }
+
+variable "security_group_id_value" {
+    description = "value for the subnet_id"
+    default = "sg-0cf777e1e2e3a794a"
+}
