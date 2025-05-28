@@ -67,34 +67,18 @@ pipeline:
                           spec:
                             branch: main
                       description: jfjh
-              - parallel:
-                  - step:
-                      type: IACMTerraformPlugin
-                      name: plan
-                      identifier: plan
-                      timeout: 10m
-                      spec:
-                        command: plan
-                  - step:
-                      type: Run
-                      name: Run_1
-                      identifier: Run_1
-                      spec:
-                        shell: Sh
-                        command: terraform plan
-              - parallel:
-                  - step:
-                      type: IACMTerraformPlugin
-                      name: apply
-                      identifier: apply
-                      timeout: 10m
-                      spec:
-                        command: apply
-                  - step:
-                      type: Run
-                      name: Run_2
-                      identifier: Run_2
-                      spec:
-                        shell: Sh
-                        command: terraform apply --auto approve
+              - step:
+                  type: IACMTerraformPlugin
+                  name: plan
+                  identifier: plan
+                  timeout: 10m
+                  spec:
+                    command: plan
+              - step:
+                  type: IACMTerraformPlugin
+                  name: apply
+                  identifier: apply
+                  timeout: 10m
+                  spec:
+                    command: apply
         tags: {}
