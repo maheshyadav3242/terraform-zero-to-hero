@@ -1,7 +1,7 @@
 
 variable "ami_value" {
     description = "value for the ami"
-    default = "ami-084568db4383264d4"
+    default = "ami-0f9de6e2d2f067fca"
 }
 
 variable "instance_type_value" {
